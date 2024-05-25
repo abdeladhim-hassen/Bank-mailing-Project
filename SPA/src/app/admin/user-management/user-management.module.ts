@@ -6,10 +6,12 @@ import { AddUserComponent } from './add-user/add-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { EventBlockerDirective } from './directives/event-blocker.directive';
 
 
 @NgModule({
   declarations: [
+    EventBlockerDirective,
     AddUserComponent,
     UserManagementComponent,
     EditUserComponent

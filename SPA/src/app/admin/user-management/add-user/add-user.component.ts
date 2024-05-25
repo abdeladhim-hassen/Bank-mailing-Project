@@ -19,16 +19,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-user.component.css']
 })
 export class AddUserComponent implements OnInit{
+  isDragOver = false
   Agences: AgenceDetails[] = []
   file: File | null = null
   selectedFileName: string | undefined
-  onFileSelected(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
+  onFileSelected($event: Event) {
+    const fileInput = ($event as DragEvent).dataTransfer ?
+      ($event as DragEvent).dataTransfer :
+      ($event.target as HTMLInputElement);
+    if (fileInput?.files && fileInput.files.length > 0) {
       this.file = fileInput.files[0];
       this.selectedFileName = this.file.name;
     }
+    this.isDragOver = false;
+
   }
+
   firstName = new FormControl('', [Validators.required, Validators.minLength(4)]);
   lastName = new FormControl('', [Validators.required, Validators.minLength(4)]);
   email = new FormControl('', [Validators.required, Validators.email], [this.emailTaken.validate]);

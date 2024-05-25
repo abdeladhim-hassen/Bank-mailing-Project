@@ -2,7 +2,15 @@
   <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeModal()"></div>
   <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all w-full max-w-md sm:max-w-3xl mx-4">
     <div class="p-6 space-y-4 md:space-y-6">
-      <div class="flex items-center justify-center w-full">
+      <div class="flex items-center justify-center w-full"
+        appEventBlocker
+        (dragend)="isDragOver = false"
+        (dragover)="isDragOver = true"
+        (dragenter)="isDragOver = true"
+        (dragleave)="isDragOver = false"
+        (mouseleave)="isDragOver = false"
+        (drop)="onFileSelected($event)"
+        [ngClass]="{'bg-indigo-400 border-indigo-400 border-solid': isDragOver}">
         <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-32 sm:h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
           <div class="flex flex-col items-center justify-center pt-5 pb-6">
             <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">

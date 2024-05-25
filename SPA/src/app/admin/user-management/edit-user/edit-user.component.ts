@@ -19,6 +19,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
   @Output() submit = new EventEmitter<ServiceResponse<UserDetails>>();
   model: UserDetails | null = null;
   visible = false;
+  isDragOver = false
   private modalStateSubscription: Subscription | undefined;
 
   file: File | null = null;
@@ -117,12 +118,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
 
-  onFileSelected(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
+  onFileSelected($event: Event) {
+    const fileInput = ($event as DragEvent).dataTransfer ?
+      ($event as DragEvent).dataTransfer :
+      ($event.target as HTMLInputElement);
+    if (fileInput?.files && fileInput.files.length > 0) {
       this.file = fileInput.files[0];
       this.selectedFileName = this.file.name;
     }
+    this.isDragOver = false;
+
   }
 
   private EditUser(user: UserUpdate){

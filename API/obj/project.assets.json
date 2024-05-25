@@ -6989,11 +6989,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\h104\\Desktop\\stb-master\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\h104\\Desktop\\stb\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\h104\\Desktop\\stb-master\\API\\API.csproj",
+      "projectPath": "C:\\Users\\h104\\Desktop\\stb\\API\\API.csproj",
       "packagesPath": "C:\\Users\\h104\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\h104\\Desktop\\stb-master\\API\\obj\\",
+      "outputPath": "C:\\Users\\h104\\Desktop\\stb\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\h104\\AppData\\Roaming\\NuGet\\NuGet.Config",
