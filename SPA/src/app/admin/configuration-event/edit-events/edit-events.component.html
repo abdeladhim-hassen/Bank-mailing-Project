@@ -1,0 +1,60 @@
+<div *ngIf="model && visible" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeModal()"></div>
+  <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-3xl w-full mx-4 sm:w-auto">
+    <div class="p-6 space-y-4 md:space-y-6">
+      <form [formGroup]="EventForm" (ngSubmit)="onSubmit()" class="space-y-4 md:space-y-6">
+        <div class="flex flex-col space-y-4 md:space-y-6">
+          <div class="flex flex-col sm:flex-row sm:space-x-4">
+
+            <!-- First heureEnvoi Field -->
+            <div class="w-full sm:w-1/2 flex flex-col">
+              <label for="heureEnvoi" class="block mb-2 text-sm font-medium text-gray-900">Heure d'envoi</label>
+              <input type="text" formControlName="heureEnvoi" id="heureEnvoi"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required="">
+              <ng-container *ngIf="heureEnvoi.errors && (heureEnvoi.dirty || heureEnvoi.touched)">
+                <div class="text-red-900 text-sm mt-1" *ngIf="heureEnvoi.hasError('required')">Heure d'envoi is required</div>
+              </ng-container>
+            </div>
+
+            <!-- Canal Field -->
+            <div class="w-full sm:w-1/2 flex flex-col mt-4 sm:mt-0">
+              <label for="canal" class="block mb-2 text-sm font-medium text-gray-900">Canal</label>
+              <select formControlName="canal" id="canal"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="SMS">SMS</option>
+                <option value="WHATSAPP">WHATSAPP</option>
+                <option value="EMAIL">EMAIL</option>
+              </select>
+              <ng-container *ngIf="canal.errors && (canal.dirty || canal.touched)">
+                <div class="text-red-900 text-sm mt-1" *ngIf="canal.hasError('required')">Canal is required</div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex justify-end space-x-3">
+          <!-- Update Button -->
+          <button type="submit"
+            [disabled]="EventForm.invalid"
+            class="w-full sm:w-auto text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center
+              focus:ring-4 focus:outline-none focus:ring-primary-300
+              {{ EventForm.invalid ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700' }}">
+            Update
+          </button>
+          <!-- Reset Button -->
+          <button type="button" (click)="reset()"
+            class="w-full sm:w-auto ml-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-200 text-base font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm">
+            Reset
+          </button>
+          <!-- Cancel Button -->
+          <button type="button" (click)="closeModal()"
+            class="w-full sm:w-auto ml-3 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

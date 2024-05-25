@@ -1,0 +1,111 @@
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-screen-xl mx-auto bg-white rounded-lg shadow dark:border dark:border-gray-700 dark:bg-gray-800">
+    <div class="p-6 space-y-4 md:space-y-6">
+      <form [formGroup]="NotificationForm" (ngSubmit)="register()" class="space-y-4 md:space-y-6">
+        <!-- First Name Field -->
+        <div>
+          <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+          <input type="text" formControlName="name" id="name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required>
+          <!-- Error Message for First Name -->
+          <ng-container *ngIf="name.errors && (name.dirty || name.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="name.hasError('required')">Name is required</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="name.hasError('minlength')">Name should be at least 8 characters</div>
+          </ng-container>
+        </div>
+
+        <!-- Sending Date Field -->
+        <div>
+          <label for="sendDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sending Date</label>
+          <input type="text" formControlName="sendDate" id="sendDate"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required>
+          <!-- Error Message for Sending Date -->
+          <ng-container *ngIf="sendDate.errors && (sendDate.dirty || sendDate.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="sendDate.hasError('required')">Send date is required</div>
+          </ng-container>
+        </div>
+
+        <!-- Email Body -->
+        <div>
+          <label for="emailBody" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+          <textarea formControlName="emailBody" id="emailBody" rows="4"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Write your thoughts here..."></textarea>
+          <!-- Error Message for Email Body -->
+          <ng-container *ngIf="emailBody.errors && (emailBody.dirty || emailBody.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="emailBody.hasError('required')">Email is required</div>
+          </ng-container>
+        </div>
+
+        <div class="flex flex-wrap mt-5">
+          <div *ngFor="let hashtag of hashtags"
+            class="text-blue-500 cursor-pointer mr-2 mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            draggable="true"
+            (dragstart)="onDragStart($event, hashtag)"
+            (dragend)="onDragEnd()"
+            (click)="insertHashtag(hashtag, emailBody, 'emailBody')">
+            {{ hashtag }}
+          </div>
+        </div>
+
+        <!-- SMS Message -->
+        <div>
+          <label for="smsMessage" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SMS Message</label>
+          <textarea formControlName="smsMessage" id="smsMessage" rows="4"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Write your thoughts here..."></textarea>
+          <!-- Error Message for SMS Message -->
+          <ng-container *ngIf="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="smsMessage.hasError('required')">SMS Message is required</div>
+          </ng-container>
+        </div>
+
+        <div class="flex flex-wrap mt-5">
+          <div *ngFor="let hashtag of hashtags"
+            class="text-blue-500 cursor-pointer mr-2 mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            draggable="true"
+            (dragstart)="onDragStart($event, hashtag)"
+            (dragend)="onDragEnd()"
+            (click)="insertHashtag(hashtag, smsMessage, 'smsMessage')">
+            {{ hashtag }}
+          </div>
+        </div>
+
+        <!-- WhatsApp Message -->
+        <div>
+          <label for="whatsMessage" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">WhatsApp Message</label>
+          <textarea formControlName="whatsMessage" id="whatsMessage" rows="4"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Write your thoughts here..."></textarea>
+          <!-- Error Message for WhatsApp Message -->
+          <ng-container *ngIf="whatsMessage.errors && (whatsMessage.dirty || whatsMessage.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="whatsMessage.hasError('required')">WhatsApp Message is required</div>
+          </ng-container>
+        </div>
+
+        <div class="flex flex-wrap mt-5">
+          <div *ngFor="let hashtag of hashtags"
+            class="text-blue-500 cursor-pointer mr-2 mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            draggable="true"
+            (dragstart)="onDragStart($event, hashtag)"
+            (dragend)="onDragEnd()"
+            (click)="insertHashtag(hashtag, whatsMessage, 'whatsMessage')">
+            {{ hashtag }}
+          </div>
+        </div>
+
+        <button type="submit"
+        [disabled]="NotificationForm.invalid || submissionInProgress"
+        class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center
+               dark:text-white dark:font-medium dark:rounded-lg dark:text-sm dark:px-5 dark:py-2.5
+               focus:ring-4 focus:outline-none focus:ring-primary-300
+               {{ NotificationForm.invalid || submissionInProgress ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700' }}">
+          {{ submissionInProgress ? 'Creating Notification...' : 'Create an Notification' }}
+        </button>
+
+      </form>
+    </div>
+  </div>
+</section>

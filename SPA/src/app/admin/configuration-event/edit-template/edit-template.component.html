@@ -1,0 +1,40 @@
+<div *ngIf="model && visible" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeModal()"></div>
+  <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-3xl w-full mx-4 sm:w-auto">
+    <div class="px-6 py-4">
+      <h3 class="text-lg font-medium text-gray-900">Edit Message Model</h3>
+      <textarea
+        [(ngModel)]="model.templateText"
+        #templateText
+        id="templateText"
+        name="templateText"
+        rows="8"
+        [class.cursor-default]="!isDragging"
+        class="block p-3 w-full text-lg text-gray-900 bg-gray-100 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Write template text here"
+      ></textarea>
+      <div class="flex flex-wrap mt-5">
+        <div *ngFor="let hashtag of getCategoryHashtags()"
+          class="text-blue-500 cursor-pointer mr-2 mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          draggable="true"
+          (dragstart)="onDragStart($event, hashtag)"
+          (dragend)="onDragEnd()"
+          (click)="insertHashtag(hashtag)"
+        >
+          {{ hashtag }}
+        </div>
+      </div>
+    </div>
+    <div class="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
+      <button type="button" (click)="onSubmit()" class="w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm">
+        Save
+      </button>
+      <button type="button" (click)="reset()" class="mt-3 sm:mt-0 w-full sm:w-auto inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-200 text-base font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm">
+        Reset
+      </button>
+      <button type="button" (click)="closeModal()" class="mt-3 sm:mt-0 w-full sm:w-auto inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

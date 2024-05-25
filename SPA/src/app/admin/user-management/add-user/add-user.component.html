@@ -1,0 +1,135 @@
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-screen-xl mx-auto bg-white rounded-lg shadow dark:border dark:border-gray-700 dark:bg-gray-800">
+
+    <div class="p-6 space-y-4 md:space-y-6">
+      <div class="flex items-center justify-center w-full">
+        <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+          </svg>
+            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            <p *ngIf="selectedFileName" class="text-sm text-red-600 dark:text-red-400">{{ selectedFileName }}</p>
+          </div>
+          <input id="dropzone-file" type="file" class="hidden" (change)="onFileSelected($event)" />
+        </label>
+      </div>
+
+      <form [formGroup]="registerForm" (ngSubmit)="register()" class="space-y-4 md:space-y-6">
+         <!-- Agence Field -->
+         <div>
+          <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Agence</label>
+          <select formControlName="agenceId" id="agenceId"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option *ngFor="let agence of Agences" [value]="agence.id">{{agence.nom}}</option>
+          </select>
+          <!-- Error Message for Agence -->
+          <ng-container *ngIf="agenceId.errors && (agenceId.dirty || agenceId.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="role.hasError('required')">Agence is required</div>
+          </ng-container>
+        </div>
+
+        <!-- First Name Field -->
+        <div>
+          <label for="first-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First Name</label>
+          <input type="text" formControlName="firstName" id="first-name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required="">
+          <!-- Error Message for First Name -->
+          <ng-container *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="firstName.hasError('required')">First Name is required</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="firstName.hasError('minlength')">First Name should be at least 4 characters</div>
+          </ng-container>
+        </div>
+        <!-- Last Name Field -->
+        <!-- Last Name Field -->
+        <div>
+          <label for="last-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last Name</label>
+          <input type="text" formControlName="lastName" id="last-name"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required="">
+          <!-- Error Message for Last Name -->
+          <ng-container *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="lastName.hasError('required')">Last Name is required</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="lastName.hasError('minlength')">Last Name should be at least 4 characters</div>
+          </ng-container>
+        </div>
+        <!-- Email Field -->
+        <div>
+          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
+          <input type="email" formControlName="email" id="email"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="name@company.com" required="">
+          <!-- Error Message for Email -->
+          <ng-container *ngIf="email.errors && (email.dirty || email.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="email.hasError('required')">Email is required</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="email.hasError('email')">Invalid email format</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="email.hasError('EmailTaken')">Email is already taken</div>
+          </ng-container>
+        </div>
+        <!-- Login Field -->
+        <div>
+          <label for="login" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Login Identifier</label>
+          <input type="text" formControlName="login" id="login"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required="">
+          <!-- Error Message for Login -->
+          <ng-container *ngIf="login.errors && (login.dirty || login.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="login.hasError('required')">Login identifier is required</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="login.hasError('minlength')">Login identifier should be at least 4 characters</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="login.hasError('LoginTaken')">Login identifier is already taken</div>
+          </ng-container>
+        </div>
+        <!-- Telephone Field -->
+        <div>
+          <label for="telephone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telephone</label>
+          <input type="text" formControlName="telephone" id="telephone"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            pattern="\d{8}" required="">
+          <!-- Error Message for Telephone -->
+          <ng-container *ngIf="telephone.errors && (telephone.dirty || telephone.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="telephone.hasError('required')">Telephone is required</div>
+            <div class="text-red-600 text-sm mt-1" *ngIf="telephone.hasError('pattern')">Invalid telephone format</div>
+          </ng-container>
+        </div>
+        <!-- Role Field -->
+        <div>
+          <label for="role" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+          <select formControlName="role" id="role"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+          </select>
+          <!-- Error Message for Role -->
+          <ng-container *ngIf="role.errors && (role.dirty || role.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="role.hasError('required')">Role is required</div>
+          </ng-container>
+        </div>
+        <!-- Etat Field -->
+        <div>
+          <label for="etat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Etat</label>
+          <select formControlName="etat" id="etat"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <option value="true">Actif</option>
+            <option value="false">Non ACTIF</option>
+          </select>
+          <!-- Error Message for Etat -->
+          <ng-container *ngIf="etat.errors && (etat.dirty || etat.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="etat.hasError('required')">Etat is required</div>
+          </ng-container>
+        </div>
+        <!-- Register Button -->
+        <button type="submit"
+        [disabled]="registerForm.invalid || submissionInProgress"
+        class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center
+               dark:text-white dark:font-medium dark:rounded-lg dark:text-sm dark:px-5 dark:py-2.5
+               focus:ring-4 focus:outline-none focus:ring-primary-300
+               {{ registerForm.invalid || submissionInProgress ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700' }}">
+          {{ submissionInProgress ? 'Creating Account...' : 'Create an account' }}
+        </button>
+
+      </form>
+    </div>
+  </div>
+</section>

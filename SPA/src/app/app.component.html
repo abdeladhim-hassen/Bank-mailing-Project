@@ -1,0 +1,14 @@
+
+<header *ngIf="(auth.isUserAuthenticated() | async)">
+  <!-- Navbar -->
+  <app-navbar></app-navbar>
+
+
+<!-- Sidebar -->
+<app-sidebar class="mr-5"></app-sidebar>
+</header>
+
+<!-- Main content -->
+<main [ngClass]="{'p-4 md:ml-64 h-auto pt-20': auth.isUserAuthenticated() | async}">
+  <router-outlet></router-outlet>
+</main>

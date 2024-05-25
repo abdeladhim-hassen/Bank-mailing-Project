@@ -1,0 +1,122 @@
+<div *ngIf="model && visible" class="fixed inset-0 flex items-center justify-center z-50">
+  <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" (click)="closeModal()"></div>
+  <div class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-3xl w-full mx-4 sm:w-auto">
+    <div class="p-6 space-y-4 md:space-y-6">
+      <form [formGroup]="NotificationForm" (ngSubmit)="onSubmit()" class="space-y-4 md:space-y-6">
+        <!-- Name and Send Date Fields on the Same Line -->
+        <div class="flex flex-col sm:flex-row sm:space-x-4">
+          <div class="flex-1">
+            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Name</label>
+            <input type="text" formControlName="name" id="name"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+            <ng-container *ngIf="name.errors && (name.dirty || name.touched)">
+              <div class="text-red-600 text-sm mt-1" *ngIf="name.hasError('required')">Name is required</div>
+              <div class="text-red-600 text-sm mt-1" *ngIf="name.hasError('minlength')">Name should be at least 8 characters</div>
+            </ng-container>
+          </div>
+          <div class="flex-1 mt-4 sm:mt-0">
+            <label for="sendDate" class="block mb-2 text-sm font-medium text-gray-900">Sending Date</label>
+            <input type="text" formControlName="sendDate" id="sendDate"
+              class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required>
+            <ng-container *ngIf="sendDate.errors && (sendDate.dirty || sendDate.touched)">
+              <div class="text-red-600 text-sm mt-1" *ngIf="sendDate.hasError('required')">Send date is required</div>
+            </ng-container>
+          </div>
+        </div>
+
+        <!-- Email Body with Hashtags on the Same Line -->
+        <div>
+          <label for="emailBody" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
+          <div class="flex flex-col sm:flex-row sm:space-x-4">
+            <textarea formControlName="emailBody" id="emailBody" rows="4"
+              class="block p-2.5 flex-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write your thoughts here..."></textarea>
+            <div class="flex flex-wrap items-start space-x-2 mt-4 sm:mt-0">
+              <div *ngFor="let hashtag of hashtags"
+                class="text-blue-500 cursor-pointer mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                draggable="true"
+                (dragstart)="onDragStart($event, hashtag)"
+                (dragend)="onDragEnd()"
+                (click)="insertHashtag(hashtag, emailBody, 'emailBody')">
+                {{ hashtag }}
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="emailBody.errors && (emailBody.dirty || emailBody.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="emailBody.hasError('required')">Email is required</div>
+          </ng-container>
+        </div>
+
+        <!-- SMS Message with Hashtags on the Same Line -->
+        <div>
+          <label for="smsMessage" class="block mb-2 text-sm font-medium text-gray-900">SMS Message</label>
+          <div class="flex flex-col sm:flex-row sm:space-x-4">
+            <textarea formControlName="smsMessage" id="smsMessage" rows="4"
+              class="block p-2.5 flex-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write your thoughts here..."></textarea>
+            <div class="flex flex-wrap items-start space-x-2 mt-4 sm:mt-0">
+              <div *ngFor="let hashtag of hashtags"
+                class="text-blue-500 cursor-pointer mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                draggable="true"
+                (dragstart)="onDragStart($event, hashtag)"
+                (dragend)="onDragEnd()"
+                (click)="insertHashtag(hashtag, smsMessage, 'smsMessage')">
+                {{ hashtag }}
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="smsMessage.errors && (smsMessage.dirty || smsMessage.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="smsMessage.hasError('required')">SMS Message is required</div>
+          </ng-container>
+        </div>
+
+        <!-- WhatsApp Message with Hashtags on the Same Line -->
+        <div>
+          <label for="whatsMessage" class="block mb-2 text-sm font-medium text-gray-900">WhatsApp Message</label>
+          <div class="flex flex-col sm:flex-row sm:space-x-4">
+            <textarea formControlName="whatsMessage" id="whatsMessage" rows="4"
+              class="block p-2.5 flex-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Write your thoughts here..."></textarea>
+            <div class="flex flex-wrap items-start space-x-2 mt-4 sm:mt-0">
+              <div *ngFor="let hashtag of hashtags"
+                class="text-blue-500 cursor-pointer mb-2 inline-block px-3 py-1 rounded-full bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                draggable="true"
+                (dragstart)="onDragStart($event, hashtag)"
+                (dragend)="onDragEnd()"
+                (click)="insertHashtag(hashtag, whatsMessage, 'whatsMessage')">
+                {{ hashtag }}
+              </div>
+            </div>
+          </div>
+          <ng-container *ngIf="whatsMessage.errors && (whatsMessage.dirty || whatsMessage.touched)">
+            <div class="text-red-600 text-sm mt-1" *ngIf="whatsMessage.hasError('required')">WhatsApp Message is required</div>
+          </ng-container>
+        </div>
+
+        <!-- Buttons -->
+        <div class="flex flex-col sm:flex-row sm:justify-end sm:space-x-3">
+          <!-- Update Button -->
+          <button type="submit"
+            [disabled]="NotificationForm.invalid"
+            class="w-full sm:w-auto text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center
+              focus:ring-4 focus:outline-none focus:ring-primary-300
+              {{ NotificationForm.invalid ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary-600 hover:bg-primary-700 dark:bg-primary-600 dark:hover:bg-primary-700' }}">
+            Update
+          </button>
+          <!-- Reset Button -->
+          <button type="button" (click)="reset()"
+            class="w-full sm:w-auto mt-3 sm:mt-0 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-200 text-base font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Reset
+          </button>
+          <!-- Cancel Button -->
+          <button type="button" (click)="closeModal()"
+            class="w-full sm:w-auto mt-3 sm:mt-0 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
