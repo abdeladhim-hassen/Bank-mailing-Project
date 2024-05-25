@@ -47,7 +47,7 @@
           <div class="flex flex-wrap -mx-2">
             <div class="w-full sm:w-1/2 px-2">
               <label for="telephone" class="block mb-2 text-sm font-medium text-gray-900">Telephone</label>
-              <input type="text" formControlName="telephone" id="telephone" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="\d{8}" required="">
+              <input type="text" formControlName="telephone" id="telephone" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" pattern="\d{8}" mask = "00 000 000" required="">
               <ng-container *ngIf="telephone.errors && (telephone.dirty || telephone.touched)">
                 <div class="text-red-900 text-sm mt-1" *ngIf="telephone.hasError('required')">Telephone is required</div>
                 <div class="text-red-900 text-sm mt-1" *ngIf="telephone.hasError('pattern')">Invalid telephone format</div>

@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { EventBlockerDirective } from './directives/event-blocker.directive';
+import { NgxMaskDirective, provideEnvironmentNgxMask } from 'ngx-mask';
 
 
 @NgModule({
@@ -17,9 +18,13 @@ import { EventBlockerDirective } from './directives/event-blocker.directive';
     EditUserComponent
   ],
   imports: [
+    NgxMaskDirective,
     CommonModule,
     ReactiveFormsModule,
     UserManagementRoutingModule
+  ],
+  providers: [
+    provideEnvironmentNgxMask(),
   ]
 })
 export class UserManagementModule { }

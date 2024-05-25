@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NavModule } from './nav/nav.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgxMaskDirective, provideEnvironmentNgxMask } from 'ngx-mask';
 import { ResponseErrorHandlerInterceptor } from './interceptors/response-error-handler.interceptor';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -23,12 +22,10 @@ import { ToastrModule } from 'ngx-toastr';
           timeOut: 5000,
       }),
         AppRoutingModule,
-        NgxMaskDirective,
         HttpClientModule,
         NavModule,
     ],
     providers: [
-        provideEnvironmentNgxMask(),
         {
             provide: HTTP_INTERCEPTORS,
             useClass: ResponseErrorHandlerInterceptor,
